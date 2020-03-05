@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>First blog</title>
-    <url>/2020/03/05/First-blog/</url>
-    <content><![CDATA[<p>My first blog</p>
-]]></content>
-      <categories>
-        <category>JS</category>
-      </categories>
-      <tags>
-        <tag>JS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2020/02/26/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener external nofollow noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener external nofollow noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener external nofollow noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener external nofollow noreferrer">GitHub</a>.</p>
@@ -29,43 +17,5 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener external nofollow noreferrer">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>使用 Hexo + GitHub 搭建自己的个人博客</title>
-    <url>/2020/02/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p>使用 Hexo + GitHub 免费搭建自己的个人博客，平时当做自己学习记笔记的地方，也可以锻炼自己写博客和编程的能力  </p>
-<a id="more"></a>
-<h2 id="一、安装前提"><a href="#一、安装前提" class="headerlink" title="一、安装前提"></a>一、安装前提</h2><blockquote>
-<p>1.你的电脑已经安装好Git。<br> 2.你的电脑已经安装好Node.js，安装镜像换成国内的[^淘宝镜像]下载会更快一些。  </p>
-</blockquote>
-<hr>
-<h2 id="二、安装-Hexo"><a href="#二、安装-Hexo" class="headerlink" title="二、安装 Hexo"></a>二、安装 Hexo</h2><blockquote>
-<p>如果已安装淘宝镜像 可以使用 cnpm 来安装 Hexo ， 否则使用 npm  </p>
-</blockquote>
-<ul>
-<li>打开 Git Bash ，输入以下命令：<br>  <code>$ npm install -g hexo-cli</code>  </li>
-<li>等 hexo 安装完成后，输入：<br>  <code>$ hexo -v</code>  </li>
-<li>查看 hexo 的版本信息。<br><img src="/img/blog01/img-2.png" alt="截图">  </li>
-</ul>
-<hr>
-<h2 id="三、使用-Hexo-创建我们的博客"><a href="#三、使用-Hexo-创建我们的博客" class="headerlink" title="三、使用 Hexo 创建我们的博客"></a>三、使用 Hexo 创建我们的博客</h2><blockquote>
-<ul>
-<li>可以在你想创建个人博客的文件夹里创建一个 blog 文件夹，在里面右键打开 Git Bash ，输入：<br>  <code>$ hexo init</code><br>初始化项目，<br><img src="/img/blog01/img-3.png" alt="截图"></li>
-<li>初始化完成后会在 blog 文件夹生成一系列文件（hexo 模板），<br><img src="/img/blog01/img-4.png" alt="截图"><br>这个过程可能比较久，如果失败的话，可以把 blog 文件夹里的东西都删除了，再重复上一步，输入<br>  <code>$ hexo init</code>  </li>
-<li>我们做博客都是围绕这些文件来做。这时候就可以启动我们的博客了，输入：<br>  <code>$ hexo s</code><br><img src="/img/blog01/img-5.png" alt="截图"></li>
-<li>在我们的浏览器中输入 localhost:4000 ,即可打开我们初始化的博客<br><img src="/img/blog01/img-6.png" alt="截图">  </li>
-</ul>
-</blockquote>
-<hr>
-<h2 id="四、把我们的博客部署到-GitHub-上"><a href="#四、把我们的博客部署到-GitHub-上" class="headerlink" title="四、把我们的博客部署到 GitHub 上"></a>四、把我们的博客部署到 GitHub 上</h2><blockquote>
-<p>1.在我们的 GitHub 上新建一个项目，项目名是你 GitHub 的用户名，例如我的GitHub用户名为 1914k 那么我就创建一个名字为：1914k.github.io 的项目<br><img src="/img/blog01/img-7.png" alt="截图"><br>2.安装 git 部署的插件，输入：<br>    <code>$ npm install --save hexo-deployer-git</code><br>3.打开 blog 文件夹里的 _config.yml 配置文件，<br><img src="/img/blog01/img-8.png" alt="截图"><br>翻到最下面，找到 deploy: ，将 type 改成 git ，把 repo 的地址换成自己的 GitHub 博客地址，如下：<br><img src="/img/blog01/img-9.png" alt="截图"><br><strong>注意/!这里的格式不能错，该有的空格要有</strong><br><strong>type，repository，branch的首字母要对齐</strong><br>4.最后输入以下三个命令：<br>    <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$ hexo clean  <span class="comment">//清理一下</span></span><br><span class="line">$ hexo g      <span class="comment">//重新生成一下</span></span><br><span class="line">$ hexo d      <span class="comment">//部署到远端</span></span><br></pre></td></tr></table></figure><br>我们的博客就成功的部署到 GitHub 上了， 可以在浏览器输入<a href="https://1914k.github.io/" target="_blank" rel="noopener external nofollow noreferrer">https://1914k.github.io/</a> 网址打开我们的博客。<br>[^淘宝镜像]: 这里是脚注</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-      </tags>
   </entry>
 </search>
