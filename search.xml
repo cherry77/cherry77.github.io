@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>微信开发环境搭建（不需要有服务器域名）</title>
+    <url>/2020/03/21/wexin/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<p>对于一个小白和穷逼以及想要开发微信的我来说，服务器和域名先不考虑，也是在百度之中挣扎了许久，站在前人的肩膀上，总结一下免费的微信开发环境搭建，不需要有服务器和域名。</p>
+<a id="more"></a>
+
+<h4 id="1-准备一个微信测试号"><a href="#1-准备一个微信测试号" class="headerlink" title="1.准备一个微信测试号"></a>1.准备一个微信测试号</h4><p>1.1 地址： <a href="https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login" target="_blank" rel="noopener external nofollow noreferrer">微信公众平台接口测试帐号申请</a>，免注册，方便快捷  </p>
+<h4 id="2-搭建微信本地调试环境"><a href="#2-搭建微信本地调试环境" class="headerlink" title="2.搭建微信本地调试环境"></a>2.搭建微信本地调试环境</h4><p>这里是让人比较痛苦的地方，没有服务器和域名就没办法，因为微信用户每次向公众号发起请求时，微信服务器会先接收用户的请求，再转发到服务器上，所以微信服务器需要和我们的服务器进行网络交互，所以必须保证我们服务器外网可以访问到。<br>想要做到本地部署，本地调试代码，要解决的问题就是将内网的部署服务器映射到外网，让微信服务器可以正常访问到，我在这里使用的是第三方软件Ngrok。Ngrok是一个免费的软件Ngrok,使用它我们就可以实现内网穿透,也就是说我们可以将内网的服务器映射到外网给别人访问,这对于我们在本地开发环境中调试微信代码是以及给用户演示一些东西非常快速和有帮助的,因为可以直接使用我们自己的内网的电脑作为服务器。</p>
+<p>国内提供Ngrok服务比较好的网站是:<a href="http://natapp.cn/" target="_blank" rel="noopener external nofollow noreferrer">http://natapp.cn/</a></p>
+<ul>
+<li>下载：<img src="/images/article/weixin/natapp01.png" alt=""></li>
+<li>将下载的包解压:<img src="/images/article/weixin/natapp02.png" alt=""></li>
+<li>添加配置文件config.ini,可以<a href="https://natapp.cn/article/config_ini" target="_blank" rel="noopener external nofollow noreferrer">在这里下载配置文件</a>，根据操作系统下载不同的config.ini文件，放到刚才下载的natapp.exe同级目录<br><img src="/images/article/weixin/natapp03.png" alt=""><br>配置文件内容如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#将本文件放置于natapp同级目录 程序将读取 [default] 段</span><br><span class="line">#在命令行参数模式如 natapp -authtoken&#x3D;xxx 等相同参数将会覆盖掉此配置</span><br><span class="line">#命令行参数 -config&#x3D; 可以指定任意config.ini文件</span><br><span class="line">[default]</span><br><span class="line">authtoken&#x3D;                      #对应一条隧道的authtoken</span><br><span class="line">clienttoken&#x3D;                    #对应客户端的clienttoken,将会忽略authtoken,若无请留空,</span><br><span class="line">log&#x3D;none                        #log 日志文件,可指定本地文件, none&#x3D;不做记录,stdout&#x3D;直接屏幕输出 ,默认为none</span><br><span class="line">loglevel&#x3D;ERROR                  #日志等级 DEBUG, INFO, WARNING, ERROR 默认为 DEBUG</span><br><span class="line">http_proxy&#x3D;                     #代理设置 如 http:&#x2F;&#x2F;10.123.10.10:3128 非代理上网用户请务必留空</span><br></pre></td></tr></table></figure>
+其中的第一行authtoken要写值的，先放着，我们去注册获取</li>
+<li>获取authtoken<br>进入这里注册：<a href="https://natapp.cn/register" target="_blank" rel="noopener external nofollow noreferrer">https://natapp.cn/register</a><br><img src="/images/article/weixin/natapp04.png" alt=""></li>
+</ul>
+<p>进入”购买隧道-免费隧道”<br><img src="/images/article/weixin/natapp05.png" alt=""></p>
+<p>填写成以下这样就可以啦<br><img src="/images/article/weixin/natapp06.png" alt=""></p>
+<p>进入”我的隧道”,可以看到authtoken<br><img src="/images/article/weixin/natapp07.png" alt=""></p>
+<p>然后将获取到的authtoken写入config.ini文件就好啦，(其他地方都不填)，然后保存</p>
+<ul>
+<li><p>windows下,直接双击natapp.exe 即可.<br>在Linux/Mac 下 需要先给执行权限<code>chmod a+x natapp</code><br>然后再运行<code>./natapp</code></p>
+</li>
+<li><p>运行成功都可以得到以下界面：<br><img src="/images/article/weixin/natapp08.png" alt=""></p>
+</li>
+<li><p>将natapp分配的网址(上图框出来的那个 ),鼠标选定然后复制下来(选定之后单击鼠标右键),在浏览器中访问,可以看到内网穿透成功了!<br><img src="/images/article/weixin/natapp09.png" alt=""></p>
+<p>该网址  <a href="http://me7ypi.natappfree.cc就是可以全球访问的网址,可以发给您的小伙伴试试" target="_blank" rel="noopener external nofollow noreferrer">http://me7ypi.natappfree.cc就是可以全球访问的网址,可以发给您的小伙伴试试</a> :)</p>
+<h4 id="3-配置微信"><a href="#3-配置微信" class="headerlink" title="3.配置微信"></a>3.配置微信</h4><p>在1中我们不是注册了微信测试号嘛，但是还是需要配置一些东西的。<br><img src="/images/article/weixin/natapp10.png" alt=""></p>
+<p>开发者还需要通过检验signature对请求进行校验。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，成为开发者成功，否则接入失败。详情可查看<a href="https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html" target="_blank" rel="noopener external nofollow noreferrer">官网文档地址</a></p>
+</li>
+<li><p>3.1配置路由<code>routes/web.php</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Route::get(&#39;&#x2F;wechat-verify&#39;, &#39;WechatController@connectWechat&#39;);</span><br></pre></td></tr></table></figure></li>
+<li><p>3.2 供微信验证开发者身份的控制器文件<code>app/Http/Controllers/WechatController.php</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">namespace App\Http\Controllers;</span><br><span class="line"></span><br><span class="line">use Illuminate\Http\Request;</span><br><span class="line">define(&#39;TOKEN&#39;, &#39;123456&#39;); &#x2F;&#x2F;Token要和在微信配置的一样</span><br><span class="line">class WechatController extends Controller</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 自定义方法，用于微信访问验证开发者身份</span><br><span class="line">     *</span><br><span class="line">     * @param Request $request</span><br><span class="line">     * @return array|null|string</span><br><span class="line">     *&#x2F;</span><br><span class="line">    public function connectWechat(Request $request)</span><br><span class="line">    &#123;</span><br><span class="line">        $signature &#x3D; $request-&gt;input(&#39;signature&#39;);</span><br><span class="line">        $timestamp &#x3D; $request-&gt;input(&#39;timestamp&#39;);</span><br><span class="line">        $nonce &#x3D; $request-&gt;input(&#39;nonce&#39;);</span><br><span class="line">        $echoStr &#x3D; $request-&gt;input(&#39;echostr&#39;);</span><br><span class="line">        if ($this-&gt;checkSignature($signature, $timestamp, $nonce)) &#123;</span><br><span class="line">            return $echoStr;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return &#39;Token verification failed.&#39;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 微信官方提供的验签方法</span><br><span class="line">     *</span><br><span class="line">     * @param $signature</span><br><span class="line">     * @param $timestamp</span><br><span class="line">     * @param $nonce</span><br><span class="line">     * @return bool</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private function checkSignature($signature, $timestamp, $nonce)</span><br><span class="line">    &#123;</span><br><span class="line">        $token &#x3D; TOKEN;</span><br><span class="line">        $tmpArr &#x3D; array($token, $timestamp, $nonce);</span><br><span class="line">        sort($tmpArr, SORT_STRING);</span><br><span class="line">        $tmpStr &#x3D; implode($tmpArr);</span><br><span class="line">        $tmpStr &#x3D; sha1($tmpStr);</span><br><span class="line"></span><br><span class="line">        if ($tmpStr &#x3D;&#x3D; $signature) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>3.3 添加csrf白名单 <code>app\Http\Middleware\VerifyCsrfToken.php</code></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">protected $except &#x3D; [</span><br><span class="line">    &quot;wechat-verify&quot;,</span><br><span class="line">];</span><br></pre></td></tr></table></figure></li>
+<li><p>3.4 到微信公众号去填写参数并提交验证<br><img src="/images/article/weixin/natapp11.png" alt=""></p>
+</li>
+<li><p>3.5 over</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>微信</category>
+      </categories>
+      <tags>
+        <tag>微信</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mysql无限极分类01-递归方式</title>
     <url>/2020/03/21/mysql/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/</url>
     <content><![CDATA[<ul>

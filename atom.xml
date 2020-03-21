@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://cherry77.github.io/"/>
-  <updated>2020-03-21T06:24:47.683Z</updated>
+  <updated>2020-03-21T14:55:50.308Z</updated>
   <id>http://cherry77.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微信开发环境搭建（不需要有服务器域名）</title>
+    <link href="http://cherry77.github.io/2020/03/21/wexin/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>http://cherry77.github.io/2020/03/21/wexin/%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
+    <published>2020-03-21T13:24:15.000Z</published>
+    <updated>2020-03-21T14:55:50.308Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于一个小白和穷逼以及想要开发微信的我来说，服务器和域名先不考虑，也是在百度之中挣扎了许久，站在前人的肩膀上，总结一下免费的微信开发环境搭建，不需要有服务器和域名。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="微信" scheme="http://cherry77.github.io/categories/%E5%BE%AE%E4%BF%A1/"/>
+    
+    
+      <category term="微信" scheme="http://cherry77.github.io/tags/%E5%BE%AE%E4%BF%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>Mysql无限极分类01-递归方式</title>
