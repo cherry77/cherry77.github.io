@@ -2,11 +2,13 @@
 <search>
   <entry>
     <title>Mysql无限极分类01-递归方式</title>
-    <url>/2020/03/21/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/</url>
+    <url>/2020/03/21/mysql/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/</url>
     <content><![CDATA[<ul>
 <li>无限极分类：有时候需要保存一些树形的数据结构，这些数据存在一种递归关系，每个类别都有对应的父类和子类，其子类又有子类，一层一层存储分类。</li>
 <li>应用场景：商品分类，评论及回复，组织架构，知识管理等。</li>
-<li>实现方式：实现无限极分类有很多种方式，需要根据具体的情况进行选择。</li>
+<li>实现方式：实现无限极分类有很多种方式，需要根据具体的情况进行选择。<a id="more"></a>
+
+</li>
 </ul>
 <h4 id="表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）"><a href="#表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）" class="headerlink" title="表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）"></a>表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）</h4><ul>
 <li>表结构<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE &#96;tree&#96; (</span><br><span class="line">  &#96;id&#96; bigint(10) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(64) NOT NULL,</span><br><span class="line">  &#96;parent_id&#96; bigint(10) NOT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;MyISAM DEFAULT CHARSET&#x3D;utf8mb4;</span><br></pre></td></tr></table></figure></li>
@@ -40,8 +42,9 @@
   </entry>
   <entry>
     <title>加入购物车</title>
-    <url>/2020/03/10/%E5%8A%A0%E5%85%A5%E8%B4%AD%E7%89%A9%E8%BD%A6/</url>
+    <url>/2020/03/10/js/%E5%8A%A0%E5%85%A5%E8%B4%AD%E7%89%A9%E8%BD%A6/</url>
     <content><![CDATA[<h3 id="加入购物车流程："><a href="#加入购物车流程：" class="headerlink" title="加入购物车流程："></a>加入购物车流程：</h3><p>如果第一次添加，建立cookie存储数据<br>如果不是，则判断之前是否添加过该商品，是：数量+1，不是：新增商品数据</p>
+<a id="more"></a>
 <h3 id="存储的数据格式"><a href="#存储的数据格式" class="headerlink" title="存储的数据格式"></a>存储的数据格式</h3><p>存储商品id和数量,转为json字符串形式</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[&#123;product_id: 1, quantity: 2&#125;]</span><br></pre></td></tr></table></figure>
 
