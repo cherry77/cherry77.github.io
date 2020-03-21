@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Mysql无限极分类01-递归方式</title>
+    <url>/2020/03/21/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/</url>
+    <content><![CDATA[<ul>
+<li>无限极分类：有时候需要保存一些树形的数据结构，这些数据存在一种递归关系，每个类别都有对应的父类和子类，其子类又有子类，一层一层存储分类。</li>
+<li>应用场景：商品分类，评论及回复，组织架构，知识管理等。</li>
+<li>实现方式：实现无限极分类有很多种方式，需要根据具体的情况进行选择</li>
+</ul>
+<h4 id="表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）"><a href="#表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）" class="headerlink" title="表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）"></a>表中记录每个节点的父节点（这个也是往往想到的第一个解决方案）</h4><ul>
+<li>表结构<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE TABLE &#96;tree&#96; (</span><br><span class="line">  &#96;id&#96; bigint(10) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(64) NOT NULL,</span><br><span class="line">  &#96;parent_id&#96; bigint(10) NOT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;MyISAM DEFAULT CHARSET&#x3D;utf8mb4;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>给里面填充了一些数据，如下：<br><img src="/images/article/mysql/tree-table01.png" alt=""></p>
+</li>
+<li><p>1.查找所有的子类和其父类</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	child.id,</span><br><span class="line">	child.name name,</span><br><span class="line">	parent.id  parent_id,</span><br><span class="line">	parent.name  parent_name</span><br><span class="line">FROM</span><br><span class="line">	tree AS child</span><br><span class="line">	LEFT JOIN tree AS parent ON child.parent_id &#x3D; parent.id;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/article/mysql/tree-query01.png" alt=""></p>
+</li>
+<li><p>2.查找某个分类id所有子类</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> public function tree()&#123;</span><br><span class="line">     $data &#x3D; Tree::all();</span><br><span class="line">     $result &#x3D; $this-&gt;getChildren($data);</span><br><span class="line">     return $result;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> function getChildren($data, $parentId &#x3D; 0)&#123;</span><br><span class="line">    &#x2F;&#x2F; 将查出来的数据循环构造树形结构</span><br><span class="line">    $result &#x3D; [];</span><br><span class="line">    foreach ($data as $key &#x3D;&gt; $val)&#123;</span><br><span class="line">        if($parentId &#x3D;&#x3D;&#x3D; $val[&#39;parent_id&#39;])&#123;</span><br><span class="line">            unset($data[$key]);</span><br><span class="line">            $val[&#39;children&#39;] &#x3D; $this-&gt;getChildren($data, $val[&#39;id&#39;]);</span><br><span class="line">            $result[] &#x3D; $val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查询结果</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">	&quot;id&quot;: 1,</span><br><span class="line">	&quot;parent_id&quot;: 0,</span><br><span class="line">	&quot;name&quot;: &quot;cate01&quot;,</span><br><span class="line">	&quot;children&quot;: [&#123;</span><br><span class="line">		&quot;id&quot;: 2,</span><br><span class="line">		&quot;parent_id&quot;: 1,</span><br><span class="line">		&quot;name&quot;: &quot;cate02&quot;,</span><br><span class="line">		&quot;children&quot;: [&#123;</span><br><span class="line">			&quot;id&quot;: 4,</span><br><span class="line">			&quot;parent_id&quot;: 2,</span><br><span class="line">			&quot;name&quot;: &quot;cate04&quot;,</span><br><span class="line">			&quot;children&quot;: []</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;, &#123;</span><br><span class="line">		&quot;id&quot;: 3,</span><br><span class="line">		&quot;parent_id&quot;: 1,</span><br><span class="line">		&quot;name&quot;: &quot;cate03&quot;,</span><br><span class="line">		&quot;children&quot;: []</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure></li>
+<li><p>3.获取某个分类id下的所有的分类id</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getChildrenIds($data, $parentId &#x3D; 0)&#123;</span><br><span class="line">    static $ids &#x3D; [];</span><br><span class="line">    foreach ($data as $key &#x3D;&gt; $val)&#123;</span><br><span class="line">        if($parentId &#x3D;&#x3D;&#x3D; $val[&#39;parent_id&#39;])&#123;</span><br><span class="line">            $ids[] &#x3D; $val[&#39;id&#39;];</span><br><span class="line">            unset($data[$key]);</span><br><span class="line">            $this-&gt;getChildrenIds($data, $val[&#39;id&#39;]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return $ids;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>4.获取某个分类id所有的父类</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getParent($data, $id)&#123;</span><br><span class="line">    $result &#x3D; [];</span><br><span class="line">    foreach ($data as $key &#x3D;&gt; $val)&#123;</span><br><span class="line">        if($val[&#39;id&#39;] &#x3D;&#x3D;&#x3D; $id)&#123;</span><br><span class="line">            $val[&#39;parent&#39;] &#x3D; $this-&gt;getParent($data, $val[&#39;parent_id&#39;]);</span><br><span class="line">            $result[] &#x3D; $val;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return $result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查找出id = 4的父类数据如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[&#123;</span><br><span class="line">	&quot;id&quot;: 4,</span><br><span class="line">	&quot;parent_id&quot;: 2,</span><br><span class="line">	&quot;name&quot;: &quot;cate04&quot;,</span><br><span class="line">	&quot;parent&quot;: [&#123;</span><br><span class="line">		&quot;id&quot;: 2,</span><br><span class="line">		&quot;parent_id&quot;: 1,</span><br><span class="line">		&quot;name&quot;: &quot;cate02&quot;,</span><br><span class="line">		&quot;parent&quot;: [&#123;</span><br><span class="line">			&quot;id&quot;: 1,</span><br><span class="line">			&quot;parent_id&quot;: 0,</span><br><span class="line">			&quot;name&quot;: &quot;cate01&quot;,</span><br><span class="line">			&quot;parent&quot;: []</span><br><span class="line">		&#125;]</span><br><span class="line">	&#125;]</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+      <tags>
+        <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>加入购物车</title>
+    <url>/2020/03/10/%E5%8A%A0%E5%85%A5%E8%B4%AD%E7%89%A9%E8%BD%A6/</url>
+    <content><![CDATA[<h3 id="加入购物车流程："><a href="#加入购物车流程：" class="headerlink" title="加入购物车流程："></a>加入购物车流程：</h3><p>如果第一次添加，建立cookie存储数据<br>如果不是，则判断之前是否添加过该商品，是：数量+1，不是：新增商品数据</p>
+<h3 id="存储的数据格式"><a href="#存储的数据格式" class="headerlink" title="存储的数据格式"></a>存储的数据格式</h3><p>存储商品id和数量,转为json字符串形式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[&#123;product_id: 1, quantity: 2&#125;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 给加入购物车按钮，添加点击操作</span><br><span class="line">$(&#39;#app div&#39;).on(&#39;click&#39;,&#39;.add-cart-btn&#39;, function()&#123;</span><br><span class="line">    &#x2F;&#x2F; 获取当前点击加入购物车按钮，商品id</span><br><span class="line">    &#x2F;&#x2F; 存储的数据结构[&#123;id, 1, quantity: 2&#125;, &#123;id: 2, quantity: 1&#125;], 转成json格式的字符串存储在cookie中</span><br><span class="line">    var id &#x3D; this.id;</span><br><span class="line">    &#x2F;&#x2F; 1.判断是否是第一次添加</span><br><span class="line">    var first &#x3D; $.cookie(&#39;products&#39;) &#x3D;&#x3D; null;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 2.如果是第一次添加</span><br><span class="line">    if(first)&#123;</span><br><span class="line">        &#x2F;&#x2F;直接创建cookie</span><br><span class="line">        var cookieArr &#x3D; [&#123;id: id, quantity: 1&#125;];</span><br><span class="line">        $.cookie(&#39;products&#39;, JSON.stringfy(cookieArr), &#123;expires: 7&#125;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        &#x2F;&#x2F; 3.该商品之前是否添加过</span><br><span class="line">        var same &#x3D; false; &#x2F;&#x2F;假设没有添加过</span><br><span class="line">        var cookieArr &#x3D; JSON.parse($.cookie(&#39;products&#39;));</span><br><span class="line">        for(var i &#x3D; 0; i &lt; cookieArr.length; i++)&#123;</span><br><span class="line">            if(cookieArr[i].id &#x3D;&#x3D;&#x3D; id)&#123;</span><br><span class="line">                &#x2F;&#x2F; 之前有添加过这个商品</span><br><span class="line">                cookieArr[i].quantity ++;</span><br><span class="line">                same &#x3D; true;</span><br><span class="line">                break;</span><br><span class="line">            &#125; </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        if(!same)&#123;</span><br><span class="line">            &#x2F;&#x2F;没有添加过</span><br><span class="line">            var obj &#x3D; &#123;id: id, quantity: 1&#125;;</span><br><span class="line">            cookieArr.push(obj);</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;最后，存回cookie中</span><br><span class="line">        $.cookie(&#39;products&#39;, JSON.stringfy(cookieArr), &#123;expires: 7&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    return;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>JS</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Hello World</title>
-    <url>/2020/02/26/hello-world/</url>
+    <url>/2020/03/05/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener external nofollow noreferrer">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener external nofollow noreferrer">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener external nofollow noreferrer">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener external nofollow noreferrer">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 

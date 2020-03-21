@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://cherry77.github.io/"/>
-  <updated>2020-02-26T05:16:19.296Z</updated>
+  <updated>2020-03-21T06:15:10.205Z</updated>
   <id>http://cherry77.github.io/</id>
   
   <author>
@@ -17,10 +17,65 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mysql无限极分类01-递归方式</title>
+    <link href="http://cherry77.github.io/2020/03/21/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/"/>
+    <id>http://cherry77.github.io/2020/03/21/Mysql%E6%97%A0%E9%99%90%E6%9E%81%E5%88%86%E7%B1%BB/</id>
+    <published>2020-03-21T04:11:29.000Z</published>
+    <updated>2020-03-21T06:15:10.205Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;ul&gt;
+&lt;li&gt;无限极分类：有时候需要保存一些树形的数据结构，这些数据存在一种递归关系，每个类别都有对应的父类和子类，其子类又有子类，一层一层存储分类。&lt;/li&gt;
+&lt;li&gt;应用场景：商品分类，评论及回复，组织架构，知识管理等。&lt;/li&gt;
+&lt;li&gt;实现方式：实现无限极分类有很多种
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Mysql" scheme="http://cherry77.github.io/categories/Mysql/"/>
+    
+    
+      <category term="Mysql" scheme="http://cherry77.github.io/tags/Mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>加入购物车</title>
+    <link href="http://cherry77.github.io/2020/03/10/%E5%8A%A0%E5%85%A5%E8%B4%AD%E7%89%A9%E8%BD%A6/"/>
+    <id>http://cherry77.github.io/2020/03/10/%E5%8A%A0%E5%85%A5%E8%B4%AD%E7%89%A9%E8%BD%A6/</id>
+    <published>2020-03-10T09:24:14.000Z</published>
+    <updated>2020-03-13T12:30:41.946Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;加入购物车流程：&quot;&gt;&lt;a href=&quot;#加入购物车流程：&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="JS" scheme="http://cherry77.github.io/categories/JS/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
-    <link href="http://cherry77.github.io/2020/02/26/hello-world/"/>
-    <id>http://cherry77.github.io/2020/02/26/hello-world/</id>
-    <published>2020-02-26T05:16:19.296Z</published>
+    <link href="http://cherry77.github.io/2020/03/05/hello-world/"/>
+    <id>http://cherry77.github.io/2020/03/05/hello-world/</id>
+    <published>2020-03-05T13:23:38.894Z</published>
     <updated>2020-02-26T05:16:19.296Z</updated>
     
     <summary type="html">

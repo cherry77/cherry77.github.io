@@ -1222,7 +1222,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #79ffe8;
+  background: #fff775;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1462,7 +1462,7 @@ pre .javascript .function {
   }
 }
 .with-love {
-  color: #ff0000;
+  color: #fb7299;
   display: inline-block;
   margin: 0 5px;
   animation: iconAnimate 1.33s ease-in-out infinite;
@@ -2443,7 +2443,7 @@ ul.breadcrumb li + li:last-child {
   position: relative;
 }
 .site-meta {
-  background: #00bcd4;
+  background: #fb7299;
   color: #fff;
   padding: 20px 0;
 }
